@@ -12,7 +12,7 @@ const Todos = () => {
   //get call to todo
   const gettodos = async () =>{
     try {
-      const res = await axios.get("http://localhost:3000/set/todo/gettodos",{
+      const res = await axios.get("/set/todo/gettodos",{
         headers:{
           Authorization : `Bearer ${token}`  
         }
@@ -38,7 +38,7 @@ const Todos = () => {
     return;
   }
     try {
-      await axios.post("http://localhost:3000/set/todo/addtodos",
+      await axios.post("/set/todo/addtodos",
         {addtodo:value},
         {
           headers : {
@@ -61,7 +61,7 @@ const Todos = () => {
   settodos(updatedTodos);
 
     try {
-        await axios.post("http://localhost:3000/set/todo/removetodos" , 
+        await axios.post("/set/todo/removetodos" , 
             {removetodo:data},
             {
           headers : {

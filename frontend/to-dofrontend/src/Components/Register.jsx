@@ -15,7 +15,7 @@ const navigate = useNavigate();
 
   try {
     const res = await axios.post(
-      "http://localhost:3000/api/auth/register",
+      "/api/auth/register",
       {
         username,
         email,
