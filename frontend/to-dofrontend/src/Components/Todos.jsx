@@ -78,164 +78,239 @@ const removetodo = async (data, index) => {
   }
 };
   return (
-    <div 
-      style={{
-        height: "100vh",
-        width: "100%"
-      }}
-    >
-      <div style={navstyle}>
-        <img style = {{height : "120px" , border :"2px solid black" , borderRadius:"50%" , objectFit:"cover"}} src="https://imgs.search.brave.com/Bt-QBRSgYqpd-tZhyZLIldFNTjr__pQGbI6p_j9pZsI/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly91cGxv/YWQud2lraW1lZGlh/Lm9yZy93aWtpcGVk/aWEvY29tbW9ucy90/aHVtYi9iL2I2L0lt/YWdlX2NyZWF0ZWRf/d2l0aF9hX21vYmls/ZV9waG9uZS5wbmcv/MTI4MHB4LUltYWdl/X2NyZWF0ZWRfd2l0/aF9hX21vYmlsZV9w/aG9uZS5wbmc" alt="" />
-        <h1>To do app</h1>
+    <>
+      <style>{`
+        .todos-wrapper {
+          min-height: 100vh;
+          width: 100%;
+          box-sizing: border-box;
+        }
 
-        <div style={{ height:"90px" , width:"30%"}}>
-          {
-            !isactive ? (
-              <button onClick={() => setIsActive(true)} style ={buttonstyle}>
-                <p style={{fontFamily:"-apple-system" , fontSize:"30px" , color:"orange" }}
-                 onMouseOver={(e) => (e.target.style.color = "black")}
-                 onMouseOut={(e) => (e.target.style.color = "orange")}>
-                  Add Items
-                </p>
-              </button>
-            ) : (
+        .nav {
+          width: 100%;
+          background-color: pink;
+          display: flex;
+          align-items: center;
+          justify-content: space-around;
+          flex-wrap: wrap;
+          gap: 10px;
+          padding: 12px 16px;
+          box-sizing: border-box;
+        }
 
-              <div style ={{display:"flex" , gap:"10px"}}>
-                <input 
-                  style={inputstyle}
-                  type="text" 
-                  placeholder='Enter todo'
-                  value={value}
-                  onChange={(e) => setvalue(e.target.value)}
-                />
+        .nav-logo {
+          height: 80px;
+          border: 2px solid black;
+          border-radius: 50%;
+          object-fit: cover;
+        }
 
-                <button
-                  style={button2}
-                  onClick={handleclick}
-                  onMouseOver={(e) => (e.currentTarget.style.border = "2px solid red")}
-                  onMouseOut={(e) => (e.currentTarget.style.border = "2px solid blue")}
-                >
-                  <span style={textStyle}>Add</span>
-                </button>
-              </div>
-            )
+        .nav h1 {
+          font-size: clamp(1.2rem, 4vw, 2rem);
+          margin: 0;
+        }
+
+        .nav-actions {
+          display: flex;
+          align-items: center;
+          width: clamp(160px, 30%, 340px);
+        }
+
+        .add-btn {
+          height: 60px;
+          width: 100%;
+          border: 8px solid green;
+          border-radius: 20%;
+          background: transparent;
+          cursor: pointer;
+        }
+
+        .add-btn p {
+          font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+          font-size: clamp(16px, 3vw, 24px);
+          color: orange;
+          margin: 0;
+          transition: color 0.2s;
+        }
+
+        .add-btn p:hover {
+          color: black;
+        }
+
+        .input-row {
+          display: flex;
+          gap: 8px;
+          align-items: center;
+          width: 100%;
+        }
+
+        .todo-input {
+          flex: 1;
+          min-width: 0;
+          height: 40px;
+          border: 8px solid green;
+          border-radius: 20%;
+          padding: 0 8px;
+          font-size: 14px;
+          box-sizing: border-box;
+        }
+
+        .confirm-btn {
+          height: 50px;
+          width: 60px;
+          border: 2px solid blue;
+          border-radius: 20%;
+          background: transparent;
+          cursor: pointer;
+          flex-shrink: 0;
+          transition: border 0.2s;
+        }
+
+        .confirm-btn:hover {
+          border: 2px solid red;
+        }
+
+        .confirm-btn span {
+          font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+          font-size: clamp(14px, 2.5vw, 22px);
+          color: orange;
+        }
+
+        .empty-msg {
+          text-align: center;
+          font-size: 20px;
+          color: #888;
+          margin-top: 40px;
+        }
+
+        .todos-list {
+          display: flex;
+          flex-direction: column;
+          gap: 15px;
+          padding: 20px;
+          box-sizing: border-box;
+        }
+
+        .todo-item {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding: 15px 20px;
+          border-radius: 12px;
+          background-color: #ffffff;
+          box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+          transition: transform 0.3s;
+          gap: 12px;
+        }
+
+        .todo-item:hover {
+          transform: scale(1.02);
+        }
+
+        .todo-text {
+          margin: 0;
+          font-size: clamp(14px, 2.5vw, 18px);
+          font-weight: 500;
+          color: #333;
+          word-break: break-word;
+          flex: 1;
+        }
+
+        .remove-btn {
+          padding: 8px 14px;
+          background-color: #ff4d4d;
+          color: #fff;
+          border: none;
+          border-radius: 8px;
+          cursor: pointer;
+          font-weight: 500;
+          transition: background-color 0.3s;
+          white-space: nowrap;
+          flex-shrink: 0;
+        }
+
+        .remove-btn:hover {
+          background-color: #cc0000;
+        }
+
+        @media (max-width: 480px) {
+          .nav {
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
           }
-        </div>
-      </div>
-        {
-  todos.length === 0 ? (
-    <p style={{
-      textAlign: "center",
-      fontSize: "20px",
-      color: "#888",
-      marginTop: "40px"
-    }}>
-      No todos found 😕
-    </p>
-  ) : (
-    <div style={{
-      display: "flex",
-      flexDirection: "column",
-      gap: "15px",
-      padding: "20px"
-    }}>
-      {
-        todos.map((d, i) => (
-          <div
-            key={i}
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-              padding: "15px 20px",
-              borderRadius: "12px",
-              backgroundColor: "#ffffff",
-              boxShadow: "0 4px 10px rgba(0,0,0,0.1)",
-              transition: "0.3s"
-            }}
-            onMouseOver={(e) => e.currentTarget.style.transform = "scale(1.02)"}
-            onMouseOut={(e) => e.currentTarget.style.transform = "scale(1)"}
-          >
-            <p style={{
-              margin: 0,
-              fontSize: "18px",
-              fontWeight: "500",
-              color: "#333"
-            }}>
-              {d}
-            </p>
 
-            <button
-            onClick={() => removetodo(d,i)}
-              style={{
-                padding: "8px 14px",
-                backgroundColor: "#ff4d4d",
-                color: "#fff",
-                border: "none",
-                borderRadius: "8px",
-                cursor: "pointer",
-                fontWeight: "500",
-                transition: "0.3s"
-              }}
-              onMouseOver={(e) => e.target.style.backgroundColor = "#cc0000"}
-              onMouseOut={(e) => e.target.style.backgroundColor = "#ff4d4d"}
-            >
-              Remove
-            </button>
+          .nav-actions {
+            width: 90%;
+          }
+
+          .todo-item {
+            flex-direction: row;
+            flex-wrap: wrap;
+          }
+        }
+      `}</style>
+
+      <div className="todos-wrapper">
+        <div className="nav">
+          <img
+            className="nav-logo"
+            src="https://imgs.search.brave.com/Bt-QBRSgYqpd-tZhyZLIldFNTjr__pQGbI6p_j9pZsI/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly91cGxv/YWQud2lraW1lZGlh/Lm9yZy93aWtpcGVk/aWEvY29tbW9ucy90/aHVtYi9iL2I2L0lt/YWdlX2NyZWF0ZWRf/d2l0aF9hX21vYmls/ZV9waG9uZS5wbmcv/MTI4MHB4LUltYWdl/X2NyZWF0ZWRfd2l0/aF9hX21vYmlsZV9w/aG9uZS5wbmc"
+            alt=""
+          />
+          <h1>To do app</h1>
+
+          <div className="nav-actions">
+            {
+              !isactive ? (
+                <button onClick={() => setIsActive(true)} className="add-btn">
+                  <p>Add Items</p>
+                </button>
+              ) : (
+                <div className="input-row">
+                  <input
+                    className="todo-input"
+                    type="text"
+                    placeholder='Enter todo'
+                    value={value}
+                    onChange={(e) => setvalue(e.target.value)}
+                  />
+                  <button
+                    className="confirm-btn"
+                    onClick={handleclick}
+                  >
+                    <span>Add</span>
+                  </button>
+                </div>
+              )
+            }
           </div>
-        ))
-      }
-    </div>
-  )
-}          
+        </div>
 
-
-
-
-
-
-
-
-
-
-
-    </div>
+        {
+          todos.length === 0 ? (
+            <p className="empty-msg">No todos found 😕</p>
+          ) : (
+            <div className="todos-list">
+              {
+                todos.map((d, i) => (
+                  <div key={i} className="todo-item">
+                    <p className="todo-text">{d}</p>
+                    <button
+                      onClick={() => removetodo(d, i)}
+                      className="remove-btn"
+                    >
+                      Remove
+                    </button>
+                  </div>
+                ))
+              }
+            </div>
+          )
+        }
+      </div>
+    </>
   );
-};
-
-const navstyle = {
-  height: "20vh",
-  width: "100%",
-  backgroundColor: "pink",
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "space-around",
-};
-
-const buttonstyle ={
-  height: "10vh",
-  width: "50%",
-  border:"8px solid green",
-  borderRadius:"20%"
-}
-
-const inputstyle={
-  height:"40px",
-  border:"8px solid green",
-  borderRadius:"20%"
-}
-
-const button2 = {
-  height:"60px",
-  width:"80px",
-  border:"2px solid blue",
-  borderRadius:"20%",
-}
-
-const textStyle = {
-  fontFamily: "-apple-system",
-  fontSize: "30px",
-  color: "orange"
 };
 
 export default Todos;
