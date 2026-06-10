@@ -264,7 +264,7 @@ const removetodo = async (data, index) => {
             {
               !isactive ? (
                 <button onClick={() => setIsActive(true)} className="add-btn">
-                  <p>Add Items</p>
+                  <p>Add todos</p>
                 </button>
               ) : (
                 <div className="input-row">
