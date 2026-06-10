@@ -10,20 +10,21 @@ const Todos = () => {
   const token = localStorage.getItem("token");
 
   //get call to todo
-  const gettodos = async () =>{
-    try {
-      const res = await axios.get("/set/todo/gettodos",{
-        headers:{
-          Authorization : `Bearer ${token}`  
-        }
-      }) 
-      
-      console.log(res.data);
-      settodos(res.data.todos);
-    } catch (error) {
-      console.log(error)
-    }
+
+const gettodos = async () => {
+  try {
+    const res = await axios.get("/api/todo/gettodos", {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    });
+
+    console.log(res.data);
+    settodos(res.data?.todos || []);
+  } catch (error) {
+    console.log(error);
   }
+};
 
   //useeffect
   useEffect(() => {
@@ -32,50 +33,50 @@ const Todos = () => {
 
 
   //after clicking addbutton
-  const handleclick = async ()=>
-  {
-     if (value.trim() === "") {
+// add todo
+const handleclick = async () => {
+  if (value.trim() === "") {
     return;
   }
-    try {
-      await axios.post("/set/todo/addtodos",
-        {addtodo:value},
-        {
-          headers : {
-            Authorization: `Bearer ${token}`
-          }
+
+  try {
+    await axios.post(
+      "/api/todo/addtodos",
+      { addtodo: value },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`
         }
-      )
+      }
+    );
 
-      settodos([...todos, value]);
+    await gettodos(); // sync with DB
 
-      setvalue("");
-      setIsActive(false)
-    } catch (error) {
-      console.log(error);
-    }
+    setvalue("");
+    setIsActive(false);
+  } catch (error) {
+    console.log(error);
   }
-        //on removing 
-  const removetodo = async (data ,index) => {
-  const updatedTodos = todos.filter((_, i) => i !== index);
-  settodos(updatedTodos);
-
-    try {
-        await axios.post("/set/todo/removetodos" , 
-            {removetodo:data},
-            {
-          headers : {
-            Authorization: `Bearer ${token}`
-          }
-        }
-        )
-        
-    } catch (error) {
-        console.log(error)
-    }
-
 };
+        //on removing 
+  // remove todo
+const removetodo = async (data, index) => {
+  try {
+    await axios.post(
+      "/api/todo/removetodos",
+      { removetodo: data },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      }
+    );
 
+    await gettodos(); // sync with DB
+  } catch (error) {
+    console.log(error);
+  }
+};
   return (
     <div 
       style={{
