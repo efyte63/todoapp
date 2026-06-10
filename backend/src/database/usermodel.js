@@ -21,10 +21,8 @@ const userSchema = new mongoose.Schema({
         unique: true
 
     },
-
-   Image: {
+  Image: {
   type: String,
-  unique: true,
   trim: true 
 }
 
