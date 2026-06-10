@@ -3,29 +3,49 @@ import Navbar from './navbar';
 
 const Home = () => {
   return (
-    <div style={{ height: "100vh", width: "100%", backgroundColor: "#f5f7fb" }}>
-      
+    <div
+      style={{
+        minHeight: "100vh",
+        width: "100%",
+        backgroundColor: "#f5f7fb",
+        overflowX: "hidden"
+      }}
+    >
       <Navbar />
-      <div 
+
+      <div
         style={{
-          height: "calc(100% - 70px)",   
+          minHeight: "calc(100vh - 80px)",
           display: "flex",
-          alignItems: "center",
           justifyContent: "center",
+          alignItems: "center",
           flexDirection: "column",
-          gap: "20px",
-          textAlign: "center"
+          textAlign: "center",
+          padding: "20px"
         }}
       >
-        <h1 style={{ fontSize: "40px", margin: 0 }}>
+        <h1
+          style={{
+            fontSize: "clamp(2rem, 5vw, 3.5rem)",
+            marginBottom: "15px",
+            color: "#222"
+          }}
+        >
           Manage Your Tasks Easily ✅
         </h1>
-        
-        <p style={{ fontSize: "18px", color: "#555", maxWidth: "500px" }}>
-          Stay organized and boost your productivity with our simple and powerful Todo App.
+
+        <p
+          style={{
+            fontSize: "clamp(1rem, 2vw, 1.2rem)",
+            color: "#555",
+            maxWidth: "600px",
+            lineHeight: "1.7"
+          }}
+        >
+          Stay organized and boost your productivity with our simple and
+          powerful Todo App.
         </p>
       </div>
-
     </div>
   );
 };
